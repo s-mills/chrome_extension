@@ -64,12 +64,24 @@ document.addEventListener('DOMContentLoaded', function() {
 			// query click handler
 			document.getElementById("query").onclick = function() {
 				var query = { 
-				  type: 'ticketStatus', 
+					type: 'ticketStatus', 
 					project: document.getElementById("project").value,
 					status: document.getElementById("statusSelect").value,
 					inStatusFor: document.getElementById("daysPast").value
 				};
+				
+				if (query.project === '') {
+					document.getElementById('status').innerHTML = 'Please enter a project.';
+					document.getElementById('status').hidden = false;
+					return;
+				}
 
+				if (query.inStatusFor === '') {
+					document.getElementById('status').innerHTML = 'Please enter a number of days.';
+					document.getElementById('status').hidden = false;
+					return;
+				}
+				
 				chrome.storage.sync.set({ query: query }, function() {
 					chrome.tabs.create({ url: 'ticketQuery.html' });						
 				});
@@ -81,6 +93,12 @@ document.addEventListener('DOMContentLoaded', function() {
 					type: 'activity',
 					user: document.getElementById("user").value 
 				};
+				
+				if (query.user === '') {
+					document.getElementById('status').innerHTML = 'Please enter a user.';
+					document.getElementById('status').hidden = false;
+					return;
+				}
 					
 				chrome.storage.sync.set({ query: query }, function() {
 					chrome.tabs.create({ url: 'ticketQuery.html' });						
